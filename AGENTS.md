@@ -2,11 +2,15 @@
 
 ## Stack
 
-Vanilla HTML/CSS/JS. Sin dependencias, sin build system, sin servidor.
+Vanilla HTML/CSS/JS. Tests con Vitest + jsdom.
 
 ## Comandos
 
-No hay — el juego se abre directamente `index.html` en el navegador.
+| Comando | Descripción |
+|---|---|
+| `npm test` | Ejecuta tests una vez |
+| `npm run test:watch` | Tests en modo watch |
+| `index.html` | Abrir en navegador para jugar |
 
 ## Arquitectura
 
@@ -26,6 +30,11 @@ No hay — el juego se abre directamente `index.html` en el navegador.
 ## Particularidades
 
 - No requiere servidor ni instalación
-- Sin tests, sin linter, sin typecheck
 - Las fuentes se cargan desde Google Fonts (requiere internet la primera vez)
-- Si se añade build system o tests, actualizar este archivo
+
+## Tests
+
+Los tests están en `tests/` y cubren la lógica pura del juego:
+- `shuffle`, `esValido`, `resolver`, `generarSudokuCompleto`
+- `contarSoluciones`, `eliminarCeldas`, `checkComplete`
+- 21 tests que validan reglas de Sudoku y generación de puzzles
