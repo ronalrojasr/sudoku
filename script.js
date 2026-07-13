@@ -19,6 +19,11 @@ const diffBtns = document.querySelectorAll('.diff-btn');
 const numBtns = document.querySelectorAll('.num-btn');
 
 // ======================== ESTRELLAS ========================
+/**
+ * Crea 180 estrellas animadas en el fondo espacial.
+ * Asigna posiciones, tamaños y animaciones aleatorias.
+ * @returns {void}
+ */
 function createStars() {
   const container = document.getElementById('stars');
   for (let i = 0; i < 180; i++) {
@@ -34,6 +39,11 @@ function createStars() {
 }
 
 // ======================== LÓGICA SUDOKU ========================
+/**
+ * Baraja un array in situ usando el algoritmo Fisher-Yates.
+ * @param {Array} arr - Array a barajar
+ * @returns {Array} El mismo array barajado
+ */
 function shuffle(arr) {
   for (let i = arr.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -42,6 +52,15 @@ function shuffle(arr) {
   return arr;
 }
 
+/**
+ * Verifica si un número puede colocarse en una celda según las reglas del Sudoku.
+ * Comprueba fila, columna y subcuadro de 3×3.
+ * @param {number[][]} board - Tablero actual
+ * @param {number} row - Fila de la celda
+ * @param {number} col - Columna de la celda
+ * @param {number} num - Número a verificar
+ * @returns {boolean} true si el número es válido
+ */
 function esValido(board, row, col, num) {
   for (let j = 0; j < 9; j++) {
     if (board[row][j] === num) return false;
@@ -59,6 +78,11 @@ function esValido(board, row, col, num) {
   return true;
 }
 
+/**
+ * Resuelve el tablero de Sudoku usando backtracking con orden aleatorio.
+ * @param {number[][]} board - Tablero a resolver (se modifica in situ)
+ * @returns {boolean} true si se encontró una solución
+ */
 function resolver(board) {
   for (let i = 0; i < 9; i++) {
     for (let j = 0; j < 9; j++) {
@@ -78,16 +102,31 @@ function resolver(board) {
   return true;
 }
 
+/**
+ * Genera un tablero de Sudoku completamente resuelto y válido.
+ * @returns {number[][]} Tablero 9×9 con valores del 1 al 9
+ */
 function generarSudokuCompleto() {
   const b = Array.from({ length: 9 }, () => Array(9).fill(0));
   resolver(b);
   return b;
 }
 
+/**
+ * Cuenta las soluciones de un tablero hasta un límite.
+ * Usa backtracking para determinar si la solución es única.
+ * @param {number[][]} board - Tablero con celdas vacías (0)
+ * @param {number} limit - Número máximo de soluciones a buscar
+ * @returns {number} Cantidad de soluciones encontradas
+ */
 function contarSoluciones(board, limit) {
   let count = 0;
   const b = board.map(r => [...r]);
 
+  /**
+   * Función interna de backtracking para explorar soluciones.
+   * @returns {void}
+   */
   function backtrack() {
     if (count >= limit) return;
     for (let i = 0; i < 9; i++) {
@@ -112,6 +151,13 @@ function contarSoluciones(board, limit) {
   return count;
 }
 
+/**
+ * Elimina celdas de una solución para crear el puzzle según la dificultad.
+ * Asegura que cada puzzle tenga solución única.
+ * @param {number[][]} solution - Tablero resuelto completo
+ * @param {string} difficulty - Dificultad: 'easy', 'medium', o 'hard'
+ * @returns {{ puzzle: number[][], fixed: boolean[][] }} Puzzle y máscara de celdas fijas
+ */
 function eliminarCeldas(solution, difficulty) {
   const puzzle = solution.map(r => [...r]);
   const fixed = Array.from({ length: 9 }, () => Array(9).fill(true));
@@ -143,6 +189,12 @@ function eliminarCeldas(solution, difficulty) {
 }
 
 // ======================== JUEGO ========================
+/**
+ * Inicia un nuevo juego con la dificultad especificada.
+ * Genera el tablero, reinicia el cronómetro, el estado y renderiza.
+ * @param {string} difficulty - Dificultad del juego: 'easy', 'medium', o 'hard'
+ * @returns {void}
+ */
 function nuevoJuego(difficulty) {
   detenerCronometro();
   gameOver = false;
@@ -166,6 +218,12 @@ function nuevoJuego(difficulty) {
   });
 }
 
+/**
+ * Selecciona una celda del tablero e inicia el cronómetro si es el primer movimiento.
+ * @param {number} row - Fila de la celda
+ * @param {number} col - Columna de la celda
+ * @returns {void}
+ */
 function selectCell(row, col) {
   if (gameOver) return;
   selectedCell = { row, col };
@@ -176,6 +234,12 @@ function selectCell(row, col) {
   }
 }
 
+/**
+ * Ingresa un número en la celda seleccionada.
+ * Si es 0 borra el contenido; si completa el puzzle muestra victoria.
+ * @param {number} num - Número del 0 al 9 a colocar
+ * @returns {void}
+ */
 function enterNumber(num) {
   if (gameOver || !selectedCell) return;
   const { row, col } = selectedCell;
@@ -200,6 +264,10 @@ function enterNumber(num) {
   }
 }
 
+/**
+ * Coloca un número correcto en una celda vacía o incorrecta al azar.
+ * @returns {void}
+ */
 function giveHint() {
   if (gameOver) return;
   const candidates = [];
@@ -231,6 +299,10 @@ function giveHint() {
   }
 }
 
+/**
+ * Verifica si el tablero coincide completamente con la solución.
+ * @returns {boolean} true si el puzzle está resuelto
+ */
 function checkComplete() {
   for (let i = 0; i < 9; i++) {
     for (let j = 0; j < 9; j++) {
@@ -241,6 +313,11 @@ function checkComplete() {
 }
 
 // ======================== TIMER ========================
+/**
+ * Inicia el cronómetro del juego con intervalos de 1 segundo.
+ * Detiene cualquier cronómetro previo antes de iniciar.
+ * @returns {void}
+ */
 function iniciarCronometro() {
   detenerCronometro();
   timerInterval = setInterval(() => {
@@ -251,6 +328,10 @@ function iniciarCronometro() {
   }, 1000);
 }
 
+/**
+ * Detiene el cronómetro del juego si está en ejecución.
+ * @returns {void}
+ */
 function detenerCronometro() {
   if (timerInterval) {
     clearInterval(timerInterval);
@@ -259,6 +340,11 @@ function detenerCronometro() {
 }
 
 // ======================== RENDER ========================
+/**
+ * Renderiza el tablero completo en el DOM.
+ * Pinta celdas fijas, incorrectas, seleccionadas, resaltadas y del mismo valor.
+ * @returns {void}
+ */
 function renderBoard() {
   boardEl.innerHTML = '';
 
