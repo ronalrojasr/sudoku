@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sudoku Espacial</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div id="stars"></div>
+
+  <div class="container">
+    <header>
+      <h1>SUDOKU ESPACIAL</h1>
+      <div class="subtitle">✦ Desafío interestelar ✦</div>
+    </header>
+
+    <div class="difficulty-selector">
+      <button class="diff-btn" data-diff="easy">★ Fácil</button>
+      <button class="diff-btn active" data-diff="medium">★★ Medio</button>
+      <button class="diff-btn" data-diff="hard">★★★ Difícil</button>
+    </div>
+
+    <div class="board-wrapper">
+      <div id="board"></div>
+    </div>
+
+    <div class="controls">
+      <button id="newGameBtn" class="btn btn-primary">🔄 Nuevo Juego</button>
+      <button id="hintBtn" class="btn btn-secondary">💡 Pista</button>
+      <div class="timer">⏱ <span id="timerDisplay">00:00</span></div>
+    </div>
+
+    <div class="numpad">
+      <button class="num-btn" data-num="1">1</button>
+      <button class="num-btn" data-num="2">2</button>
+      <button class="num-btn" data-num="3">3</button>
+      <button class="num-btn" data-num="4">4</button>
+      <button class="num-btn" data-num="5">5</button>
+      <button class="num-btn" data-num="6">6</button>
+      <button class="num-btn" data-num="7">7</button>
+      <button class="num-btn" data-num="8">8</button>
+      <button class="num-btn" data-num="9">9</button>
+      <button class="num-btn erase" data-num="0">⌫</button>
+    </div>
+  </div>
+
+  <div id="victoryModal" class="modal">
+    <div class="modal-content">
+      <div class="victory-icon">✦</div>
+      <h2>¡Sudoku Completado!</h2>
+      <p>Has conquistado el desafío espacial</p>
+      <p class="victory-time">Tiempo: <span id="victoryTime">00:00</span></p>
+      <button id="playAgainBtn" class="btn btn-primary">Jugar de nuevo</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
